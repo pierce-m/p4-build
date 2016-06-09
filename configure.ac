@@ -17,6 +17,10 @@ AC_CONFIG_MACRO_DIR([m4])
 # will abort if there is no Python interpreter >= 2.7
 AM_PATH_PYTHON([2.7])
 
+# Enable Openflow
+AC_WITH([of], [want_of=yes], [])
+AM_CONDITIONAL([COND_PLUGIN_OPENFLOW], [test "$want_of" = yes])
+
 want_bmv2=no
 AC_ARG_WITH([bmv2],
     AS_HELP_STRING([--with-bmv2], [Build for bmv2 target]),

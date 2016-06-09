@@ -29,6 +29,9 @@ $(builddir)/@P4_NAME@/thrift-src/pd_rpc_server.h
 
 P4_JSON_OUTPUT = $(P4_NAME).json
 
+plugin_files =
+plugin_headers =
+
 # TODO(antonin):
 # this is not portable (GNU make extension), but this is the only think I can
 # think of right now to keep track of dependencies
@@ -40,7 +43,7 @@ pd_files.ts : $(P4_PATH) $(refdeps)
 	@touch pd_files.tmp
 	PYTHONPATH=$$PYTHONPATH:$(MY_PYTHONPATH) $(P4C_BM) --pd $(builddir)/$(P4_NAME)/ --p4-prefix $(P4_PREFIX) $(P4C_BM_FLAGS) --json $(builddir)/$(P4_JSON_OUTPUT) $(P4_PATH)
 	@mv -f pd_files.tmp $@
-$(pd_files) $(pd_p4_IDL) $(pd_p4_src) : pd_files.ts
+$(pd_files) $(pd_p4_IDL) $(pd_p4_src) $(plugin_files) : pd_files.ts
 ## Recover from the removal of $@
 	@if test -f $@; then :; else \
 	  trap 'rm -rf pd_files.lock pd_files.ts' 1 2 13 15; \
@@ -145,6 +148,49 @@ endif
 
 if P4THRIFT
     AM_CPPFLAGS += -DP4THRIFT
+endif
+
+# Openflow plugin
+if COND_PLUGIN_OPENFLOW
+unused_for_now = \
+@P4_NAME@/plugin/of/src/pd_wrappers.c    \
+@P4_NAME@/plugin/of/src/ofpat_groups.c   \
+@P4_NAME@/plugin/of/src/ofpat_state.c    \
+@P4_NAME@/plugin/of/src/ofpat_pipeline.c \
+@P4_NAME@/plugin/of/inc/pd_wrappers.h    \
+@P4_NAME@/plugin/of/inc/ofpat_groups.h   \
+@P4_NAME@/plugin/of/src/ofpat_state.h    \
+@P4_NAME@/plugin/of/inc/ofpat_pipeline.h \
+@P4_NAME@/plugin/of/inc/openflow.h
+
+of_sources = \
+@P4_NAME@/plugin/of/src/pd_wrappers.c    \
+@P4_NAME@/plugin/of/src/ofpat_groups.c   \
+@P4_NAME@/plugin/of/src/ofpat_state.c    \
+@P4_NAME@/plugin/of/src/ofpat_pipeline.c
+
+of_includes = \
+@P4_NAME@/plugin/of/inc/pd_wrappers.h    \
+@P4_NAME@/plugin/of/inc/ofpat_groups.h   \
+@P4_NAME@/plugin/of/src/ofpat_state.h    \
+@P4_NAME@/plugin/of/inc/ofpat_pipeline.h \
+@P4_NAME@/plugin/of/inc/openflow.h
+
+plugin_files += $(of_sources) $(of_includes)
+plugin_headers += $(of_includes)
+
+pdlib_LTLIBRARIES += libof.la
+
+libof_la_SOURCES = $(of_sources) $(of_includes)
+
+# Flags for including from p4ofagent/indigo
+AM_CPPFLAGS += -D_BMV2_
+AM_CPPFLAGS += -I $(builddir)/../../../../../../submodules/p4ofagent
+AM_CPPFLAGS += -I $(builddir)/../../../../../../submodules/p4ofagent/inc
+AM_CPPFLAGS += -I $(builddir)/../../../../../../submodules/p4ofagent/submodules/indigo/modules/indigo/module/inc
+AM_CPPFLAGS += -I $(builddir)/../../../../../../submodules/p4ofagent/submodules/indigo/submodules/loxigen-artifacts/loci/inc
+AM_CPPFLAGS += -I $(builddir)/../../../../../../submodules/p4ofagent/submodules/indigo/submodules/infra/modules/AIM/module/inc
+AM_CPPFLAGS += -O0 -g
 endif
 
 pddatadir = $(datadir)/bmpd/@P4_NAME@
