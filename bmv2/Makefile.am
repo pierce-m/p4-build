@@ -185,12 +185,6 @@ libof_la_SOURCES = $(of_sources) $(of_includes)
 
 # Flags for including from p4ofagent/indigo
 AM_CPPFLAGS += -D_BMV2_
-AM_CPPFLAGS += -I $(builddir)/../../../../../../submodules/p4ofagent
-AM_CPPFLAGS += -I $(builddir)/../../../../../../submodules/p4ofagent/inc
-AM_CPPFLAGS += -I $(builddir)/../../../../../../submodules/p4ofagent/submodules/indigo/modules/indigo/module/inc
-AM_CPPFLAGS += -I $(builddir)/../../../../../../submodules/p4ofagent/submodules/indigo/submodules/loxigen-artifacts/loci/inc
-AM_CPPFLAGS += -I $(builddir)/../../../../../../submodules/p4ofagent/submodules/indigo/submodules/infra/modules/AIM/module/inc
-AM_CPPFLAGS += -O0 -g
 endif
 
 pddatadir = $(datadir)/bmpd/@P4_NAME@
