@@ -32,6 +32,32 @@ P4_JSON_OUTPUT = $(P4_NAME).json
 plugin_files =
 plugin_headers =
 
+# Openflow plugin
+if COND_PLUGIN_OPENFLOW
+of_sources = \
+@P4_NAME@/plugin/of/src/pd_wrappers.c    \
+@P4_NAME@/plugin/of/src/ofpat_groups.c   \
+@P4_NAME@/plugin/of/src/ofpat_state.c    \
+@P4_NAME@/plugin/of/src/ofpat_pipeline.c
+
+of_includes = \
+@P4_NAME@/plugin/of/inc/pd_wrappers.h    \
+@P4_NAME@/plugin/of/inc/ofpat_groups.h   \
+@P4_NAME@/plugin/of/src/ofpat_state.h    \
+@P4_NAME@/plugin/of/inc/ofpat_pipeline.h \
+@P4_NAME@/plugin/of/inc/openflow.h
+
+plugin_files += $(of_sources) $(of_includes)
+plugin_headers += $(of_includes)
+
+pdlib_LTLIBRARIES += libof.la
+
+libof_la_SOURCES = $(of_sources) $(of_includes)
+
+# Flags for including from p4ofagent/indigo
+AM_CPPFLAGS += -D_BMV2_
+endif
+
 # TODO(antonin):
 # this is not portable (GNU make extension), but this is the only think I can
 # think of right now to keep track of dependencies
@@ -148,43 +174,6 @@ endif
 
 if P4THRIFT
     AM_CPPFLAGS += -DP4THRIFT
-endif
-
-# Openflow plugin
-if COND_PLUGIN_OPENFLOW
-unused_for_now = \
-@P4_NAME@/plugin/of/src/pd_wrappers.c    \
-@P4_NAME@/plugin/of/src/ofpat_groups.c   \
-@P4_NAME@/plugin/of/src/ofpat_state.c    \
-@P4_NAME@/plugin/of/src/ofpat_pipeline.c \
-@P4_NAME@/plugin/of/inc/pd_wrappers.h    \
-@P4_NAME@/plugin/of/inc/ofpat_groups.h   \
-@P4_NAME@/plugin/of/src/ofpat_state.h    \
-@P4_NAME@/plugin/of/inc/ofpat_pipeline.h \
-@P4_NAME@/plugin/of/inc/openflow.h
-
-of_sources = \
-@P4_NAME@/plugin/of/src/pd_wrappers.c    \
-@P4_NAME@/plugin/of/src/ofpat_groups.c   \
-@P4_NAME@/plugin/of/src/ofpat_state.c    \
-@P4_NAME@/plugin/of/src/ofpat_pipeline.c
-
-of_includes = \
-@P4_NAME@/plugin/of/inc/pd_wrappers.h    \
-@P4_NAME@/plugin/of/inc/ofpat_groups.h   \
-@P4_NAME@/plugin/of/src/ofpat_state.h    \
-@P4_NAME@/plugin/of/inc/ofpat_pipeline.h \
-@P4_NAME@/plugin/of/inc/openflow.h
-
-plugin_files += $(of_sources) $(of_includes)
-plugin_headers += $(of_includes)
-
-pdlib_LTLIBRARIES += libof.la
-
-libof_la_SOURCES = $(of_sources) $(of_includes)
-
-# Flags for including from p4ofagent/indigo
-AM_CPPFLAGS += -D_BMV2_
 endif
 
 pddatadir = $(datadir)/bmpd/@P4_NAME@
