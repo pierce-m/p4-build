@@ -32,6 +32,10 @@ P4_JSON_OUTPUT = $(P4_NAME).json
 plugin_files =
 plugin_headers =
 
+pdlib_LTLIBRARIES = 
+
+AM_CPPFLAGS = 
+
 # Openflow plugin
 if COND_PLUGIN_OPENFLOW
 of_sources = \
@@ -156,7 +160,7 @@ pdthriftsrcincludedir = $(includedir)/bmpd/@P4_NAME@/thrift-src
 pdthriftsrcinclude_HEADERS = @P4_NAME@/thrift-src/pd_rpc_server.h
 
 pdlibdir = $(libdir)/bmpd/@P4_NAME@
-pdlib_LTLIBRARIES = libpd.la libpdthrift.la
+pdlib_LTLIBRARIES += libpd.la libpdthrift.la
 
 libpd_la_SOURCES = \
 $(pd_files)
@@ -165,7 +169,7 @@ libpdthrift_la_SOURCES = \
 $(pd_thrift_files) \
 @P4_NAME@/thrift-src/pd_rpc_server.cpp
 
-AM_CPPFLAGS = -I$(includedir)
+AM_CPPFLAGS += -I$(includedir)
 AM_CPPFLAGS += -I$(builddir)/@P4_NAME@/
 AM_CPPFLAGS += -I$(builddir)/pd_thrift_gen/gen-cpp/
 if !BMV2_TEST_ENV

@@ -49,7 +49,7 @@ AS_IF([test "$P4_PREFIX" = ""], [
   AC_SUBST([P4_PREFIX])
 ])
 
-diff_w_test=$($PYTHON $srcdir/tools/diff.py $P4_PATH $srcdir/bmv2/tests/test.p4)
+diff_w_test=$($PYTHON $srcdir/tools/diff.py $P4_PATH $srcdir/bmv2/tests/range/test.p4)
 AM_CONDITIONAL([BMV2_TEST_ENV],
   [test "$P4_NAME" = "test" && test "$P4_PREFIX" = "test" && test "$diff_w_test" = "no"])
 AM_COND_IF([BMV2_TEST_ENV], [AC_MSG_NOTICE([Bmv2 test environment detected])])
@@ -137,7 +137,8 @@ AC_SUBST([MY_PYTHONPATH], ["$PYTHON_DIR"])
 # Generate makefiles
 AC_CONFIG_FILES([Makefile
                  bmv2/Makefile
-                 bmv2/tests/Makefile])
+                 bmv2/tests/Makefile
+                 bmv2/tests/range/Makefile])
 
 # Generate other files
 AC_CONFIG_FILES([tools/produce_deps.py], [chmod +x tools/produce_deps.py])
