@@ -58,3 +58,10 @@ install:
 
 script:
   - make check
+  - make clean
+  - export P4_NAME="oftest"
+  - export P4_PREFIX="oftest"
+  - export P4_PATH="`pwd`/bmv2/tests/openflow/oftest.p4"
+  - export P4C_BM_FLAGS="--plugin of --openflow-mapping-dir `pwd`/bmv2/tests/openflow/oftest.p4 --openflow-mapping-mod oftest"
+  - ./autogen.sh; ./configure 'CXX=g++-4.8' --with-bmv2; make -j2
+  - make check
