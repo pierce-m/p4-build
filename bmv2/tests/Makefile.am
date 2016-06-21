@@ -1,3 +1,7 @@
 ACLOCAL_AMFLAGS = ${ACLOCAL_FLAGS} -I m4
 
+if COND_PLUGIN_OPENFLOW
+SUBDIRS = openflow 
+else
 SUBDIRS = range
+endif
