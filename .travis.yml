@@ -51,9 +51,9 @@ cache:
     - $HOME/nanomsg
 
 install:
-  - export P4_NAME="test"
-  - export P4_PREFIX="test"
-  - export P4_PATH="`pwd`/bmv2/tests/test.p4"
+  - export P4_NAME="pdtest"
+  - export P4_PREFIX="pdtest"
+  - export P4_PATH="`pwd`/bmv2/tests/pdtest/pdtest.p4"
   - ./autogen.sh; ./configure 'CXX=g++-4.8' --with-bmv2; make -j2
 
 script:
