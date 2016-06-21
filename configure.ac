@@ -49,13 +49,12 @@ AS_IF([test "$P4_PREFIX" = ""], [
   AC_SUBST([P4_PREFIX])
 ])
 
-diff_w_test=$($PYTHON $srcdir/tools/diff.py $P4_PATH $srcdir/bmv2/tests/range/test.p4)
+diff_w_test=$($PYTHON $srcdir/tools/diff.py $P4_PATH $srcdir/bmv2/tests/pdtest/pdtest.p4)
 
 if test "$diff_w_test" = "yes" ; then
     diff_w_test=$($PYTHON $srcdir/tools/diff.py $P4_PATH $srcdir/bmv2/tests/openflow/oftest.p4)
 fi
-AM_CONDITIONAL([BMV2_TEST_ENV],
-  [test "$P4_NAME" = "test" || test "$P4_NAME" = "oftest" && test "$P4_PREFIX" = "test" || test "$P4_PREFIX" = "oftest" && test "$diff_w_test" = "no"])
+AM_CONDITIONAL([BMV2_TEST_ENV], [test "$P4_NAME" = "pdtest" || test "$P4_NAME" = "oftest" && test "$P4_PREFIX" = "pdtest" || test "$P4_PREFIX" = "oftest" && test "$diff_w_test" = "no"])
 AM_COND_IF([BMV2_TEST_ENV], [AC_MSG_NOTICE([Bmv2 test environment detected])])
 
 AC_ARG_VAR([P4C_BM_FLAGS], [Options to pass to the p4c-bm compiler])
@@ -142,7 +141,7 @@ AC_SUBST([MY_PYTHONPATH], ["$PYTHON_DIR"])
 AC_CONFIG_FILES([Makefile
                  bmv2/Makefile
                  bmv2/tests/Makefile
-                 bmv2/tests/range/Makefile
+                 bmv2/tests/pdtest/Makefile
                  bmv2/tests/openflow/Makefile])
 
 # Generate other files

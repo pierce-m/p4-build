@@ -13,13 +13,6 @@
  * limitations under the License.
  */
 
-#include <iostream>
-#include <cstring>
-#include <thread>
-#include <chrono>
-
-#include <thrift_endpoint.h>
-
 #include <bm/pdfixed/pd_static.h>
 #include <bm/pdfixed/pd_pre.h>
 #include <bm/pdfixed/pd_mirroring.h>
@@ -34,8 +27,10 @@
 
 #define DEVICE_THRIFT_PORT 9090
 
+extern int c_start_server();
+
 int main() {
-  start_server();
+  c_start_server();
 
   p4_pd_init();
 
@@ -49,8 +44,6 @@ int main() {
   p4_pd_sess_hdl_t sess_hdl;
   p4_pd_client_init(&sess_hdl);
   
-  std::cerr << "session handle is " << sess_hdl << std::endl;
-
   // just a couple random calls into the library to make sure it works
   ofpat_pipeline_key_t junk_key;
   memset (&junk_key, 0, sizeof(junk_key));

@@ -2,8 +2,7 @@ if BMV2_TEST_ENV
 
 check_PROGRAMS = oftest
 
-oftest_SOURCES = oftest.cpp \
-../thrift_endpoint/src/server.cpp
+oftest_SOURCES = oftest.c
 
 oftest_CPPFLAGS = -I$(includedir)
 oftest_CPPFLAGS += -I$(srcdir)/../thrift_endpoint
@@ -16,9 +15,13 @@ endif
 
 oftest_LDFLAGS = -L$(libdir)
 oftest_LDFLAGS += -pthread
-oftest_LDADD = $(builddir)/../../libof.la $(builddir)/../../libpd.la -lbmpdfixed
-# TODO(pierce): is there a way to avoid having to do this?
-oftest_LDADD += -lruntimestubs -lsimpleswitch_thrift
+
+noinst_LTLIBRARIES = libthrift_endpoint.la
+libthrift_endpoint_la_SOURCES = ../thrift_endpoint/src/server.cpp
+
+oftest_LDADD = libthrift_endpoint.la
+oftest_LDADD += $(builddir)/../../libof.la -lp4ofagent $(builddir)/../../libpd.la -lbmpdfixed
+oftest_LDADD += -lruntimestubs -lsimpleswitch_thrift -lm -lstdc++
 oftest_LDADD += $(THRIFT_LIB)
 
 TESTS = ./run_tests.sh
