@@ -11,7 +11,7 @@ find -name ".gitmodules" -type f -exec sed -i 's/git@github.com:/https:\/\/githu
 cd ../../../../
 ./autogen.sh
 ./configure --prefix=$HOME/p4ofagent
-make p4ofagent CFLAGS="-D_BMV2_ -I$HOME/bmv2"
+make p4ofagent CFLAGS="-D_BMV2_ -I$HOME/bmv2/include"
 make install
 cd ..
 rm -rf p4ofagent_tmp
