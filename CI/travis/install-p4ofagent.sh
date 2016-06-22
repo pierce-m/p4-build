@@ -10,8 +10,8 @@ cd submodules/bigcode/
 find -name ".gitmodules" -type f -exec sed -i 's/git@github.com:/https:\/\/github.com\//' {} \;
 cd ../../../../
 ./autogen.sh
-./configure
-make CFLAGS=-D_BMV2_ p4ofagent
+./configure --prefix=$HOME/p4ofagent
+make p4ofagent CFLAGS="-D_BMV2_ -I$HOME/bmv2"
 make install
 cd ..
 rm -rf p4ofagent_tmp
