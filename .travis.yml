@@ -66,5 +66,5 @@ script:
   - export P4_PREFIX="oftest"
   - export P4_PATH="`pwd`/bmv2/tests/openflow/oftest.p4"
   - export P4C_BM_FLAGS="--plugin of --openflow-mapping-dir `pwd`/bmv2/tests/openflow --openflow-mapping-mod oftest"
-  - ./configure 'CXX=g++-4.8' --with-bmv2 --with-of; make -j2
+  - ./configure 'CXX=g++-4.8' --with-bmv2 --with-of; make -j2 CFLAGS="-I$HOME/p4ofagent/include"
   - make check
