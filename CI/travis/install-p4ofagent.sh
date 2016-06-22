@@ -14,5 +14,4 @@ cd ../../../../
 make CFLAGS=-D_BMV2_ p4ofagent
 make install
 cd ..
-
 rm -rf p4ofagent_tmp
