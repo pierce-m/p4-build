@@ -172,8 +172,10 @@ $(pd_thrift_files) \
 AM_CPPFLAGS += -I$(includedir)
 AM_CPPFLAGS += -I$(builddir)/@P4_NAME@/
 AM_CPPFLAGS += -I$(builddir)/pd_thrift_gen/gen-cpp/
-if !BMV2_TEST_ENV
+if !BMV2_PDTEST_ENV
+if !BMV2_OFTEST_ENV
 AM_CPPFLAGS += -DHOST_BYTE_ORDER_CALLER
+endif
 endif
 
 if P4THRIFT

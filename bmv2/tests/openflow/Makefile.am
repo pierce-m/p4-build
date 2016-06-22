@@ -1,5 +1,3 @@
-if BMV2_TEST_ENV
-
 check_PROGRAMS = oftest
 
 oftest_SOURCES = oftest.c
@@ -26,13 +24,3 @@ oftest_LDADD += -lruntimestubs -lsimpleswitch_thrift -lm -lstdc++ -lrt
 oftest_LDADD += $(THRIFT_LIB)
 
 TESTS = ./run_tests.sh
-
-else
-
-check-local:
-	@echo "================================================="
-	@echo "No bmv2 tests can run if configure was not run with the \
-	appropriate environment."
-	@echo "================================================="
-
-endif

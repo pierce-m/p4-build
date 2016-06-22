@@ -49,13 +49,14 @@ AS_IF([test "$P4_PREFIX" = ""], [
   AC_SUBST([P4_PREFIX])
 ])
 
-diff_w_test=$($PYTHON $srcdir/tools/diff.py $P4_PATH $srcdir/bmv2/tests/pdtest/pdtest.p4)
+# Test environments
+diff_w_pdtest=$($PYTHON $srcdir/tools/diff.py $P4_PATH $srcdir/bmv2/tests/pdtest/pdtest.p4)
+AM_CONDITIONAL([BMV2_PDTEST_ENV], [test "$P4_NAME" = "pdtest"&& test "$P4_PREFIX" = "pdtest" && test "$diff_w_pdtest" = "no"])
+AM_COND_IF([BMV2_PDTEST_ENV], [AC_MSG_NOTICE([Bmv2 test environment detected])])
 
-if test "$diff_w_test" = "yes" ; then
-    diff_w_test=$($PYTHON $srcdir/tools/diff.py $P4_PATH $srcdir/bmv2/tests/openflow/oftest.p4)
-fi
-AM_CONDITIONAL([BMV2_TEST_ENV], [test "$P4_NAME" = "pdtest" || test "$P4_NAME" = "oftest" && test "$P4_PREFIX" = "pdtest" || test "$P4_PREFIX" = "oftest" && test "$diff_w_test" = "no"])
-AM_COND_IF([BMV2_TEST_ENV], [AC_MSG_NOTICE([Bmv2 test environment detected])])
+diff_w_oftest=$($PYTHON $srcdir/tools/diff.py $P4_PATH $srcdir/bmv2/tests/openflow/oftest.p4)
+AM_CONDITIONAL([BMV2_OFTEST_ENV], [test "$P4_NAME" = "oftest" &&test "$P4_PREFIX" = "oftest" && test "$diff_w_oftest" = "no"])
+AM_COND_IF([BMV2_OFTEST_ENV], [AC_MSG_NOTICE([Bmv2 test environment detected])])
 
 AC_ARG_VAR([P4C_BM_FLAGS], [Options to pass to the p4c-bm compiler])
 
