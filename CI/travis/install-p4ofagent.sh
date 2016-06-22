@@ -8,6 +8,7 @@ find -name ".gitmodules" -type f -exec sed -i 's/git@github.com:/https:\/\/githu
 git submodule update --init
 cd submodules/bigcode/
 find -name ".gitmodules" -type f -exec sed -i 's/git@github.com:/https:\/\/github.com\//' {} \;
+cd ../../../../
 ./autogen.sh
 ./configure
 make CFLAGS=-D_BMV2_ p4ofagent
