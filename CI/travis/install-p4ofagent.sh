@@ -2,7 +2,12 @@
 set -e
 git clone https://github.com/p4lang/p4ofagent.git p4ofagent_tmp
 cd p4ofagent_tmp
-git submodule update --init --recursive
+git submodule update --init
+cd submodules/indigo/
+find -name ".gitmodules" -type f -exec sed -i 's/git@github.com:/https:\/\/github.com\//' {} \;
+git submodule update --init
+cd submodules/bigcode/
+find -name ".gitmodules" -type f -exec sed -i 's/git@github.com:/https:\/\/github.com\//' {} \;
 ./autogen.sh
 ./configure
 make CFLAGS=-D_BMV2_ p4ofagent
