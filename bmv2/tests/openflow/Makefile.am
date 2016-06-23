@@ -22,7 +22,7 @@ libthrift_endpoint_la_SOURCES = ../thrift_endpoint/src/server.cpp
 
 oftest_LDADD = libthrift_endpoint.la
 oftest_LDADD += $(builddir)/../../libof.la -lp4ofagent $(builddir)/../../libpd.la -lbmpdfixed
-oftest_LDADD += -lruntimestubs -lsimpleswitch_thrift
+oftest_LDADD += -lruntimestubs -lsimpleswitch_thrift -lrt
 oftest_LDADD += $(THRIFT_LIB)
 
 TESTS = ./run_tests.sh
